@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Pokémon GO Search Builder</title>
+  
+  <!-- Lato Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-color: #f4f4f7;
+      --text-color: #333333;
+      --card-bg: #ffffff;
+      --card-border: #e5e7eb;
+      --chip-bg: #e5e7eb;
+      --chip-text: #374151;
+      --chip-active-bg: #DE7E00;
+      --chip-active-text: #ffffff;
+      --output-bg: #242424;
+      --output-text: #ffffff;
+      --output-border: transparent;
+      --output-shadow: rgba(0, 0, 0, 0.25);
+      --accent-color: #DE7E00;
+    }
+
+    body.dark-mode {
+      --bg-color: #121212;
+      --text-color: #f3f4f6;
+      --card-bg: #1f2937;
+      --card-border: #374151;
+      --chip-bg: #374151;
+      --chip-text: #d1d5db;
+      --chip-active-bg: #FF9D2E;
+      --chip-active-text: #121212;
+      --output-bg: #000000;
+      --output-text: #ffffff;
+      --output-border: 1px solid #2d2d2d;
+      --output-shadow: rgba(0, 0, 0, 0.6);
+      --accent-color: #FF9D2E;
+    }
+
+    body {
+      font-family: 'Lato', -apple-system, BlinkMacSystemFont, sans-serif;
+      padding: 20px 16px;
+      max-width: 360px;
+      margin: 0 auto;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      -webkit-tap-highlight-color: transparent;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .theme-toggle {
+      background: none;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 16px 0 8px 0;
+      color: var(--accent-color);
+      text-align: left;
+    }
+
+    .chip-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .chip {
+      background: var(--chip-bg);
+      color: var(--chip-text);
+      border: 1px solid transparent;
+      border-radius: 20px;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+
+    .chip.active {
+      background: var(--chip-active-bg);
+      color: var(--chip-active-text);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    .output-container {
+      background-color: var(--output-bg);
+      border: var(--output-border);
+      color: var(--output-text);
+      border-radius: 16px;
+      padding: 16px;
+      margin-top: 24px;
+      box-shadow: 0 4px 12px var(--output-shadow);
+      transition: background-color 0.3s ease, border 0.3s ease;
+    }
+
+    .output-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #bfbfbf;
+      margin-bottom: 8px;
+      text-align: left;
+    }
+
+    .output-text {
+      font-family: monospace;
+      font-size: 14px;
+      word-break: break-all;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 10px 12px;
+      border-radius: 8px;
+      min-height: 20px;
+      text-align: left;
+      margin-bottom: 12px;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 14px;
+      font-family: inherit;
+      cursor: pointer;
+      transition: opacity 0.15s ease, transform 0.1s ease;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background-color: var(--accent-color);
+      color: #ffffff;
+    }
+
+    .btn-secondary {
+      background-color: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+    }
+
+    .app-footer {
+      margin-top: 24px;
+      margin-bottom: 8px;
+      font-size: 11px;
+      color: var(--text-color);
+      opacity: 0.6;
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header-row">
+    <h2>Search Builder</h2>
+    <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()">🌙</button>
+  </div>
+
+  <div class="section-title">Appraisal & Stars</div>
+  <div class="chip-grid" data-group="stars">
+    <button class="chip" data-filter="0*">0*</button>
+    <button class="chip" data-filter="1*">1*</button>
+    <button class="chip" data-filter="2*">2*</button>
+    <button class="chip" data-filter="3*">3*</button>
+    <button class="chip" data-filter="4*">4*</button>
+    <button class="chip" data-filter="0attack">0 Attack</button>
+  </div>
+
+  <div class="section-title">Status & Rarity</div>
+  <div class="chip-grid" data-group="status">
+    <button class="chip" data-filter="shiny">Shiny</button>
+    <button class="chip" data-filter="shadow">Shadow</button>
+    <button class="chip" data-filter="purified">Purified</button>
+    <button class="chip" data-filter="lucky">Lucky</button>
+    <button class="chip" data-filter="legendary">Legendary</button>
+    <button class="chip" data-filter="mythical">Mythical</button>
+    <button class="chip" data-filter="costume">Costume</button>
+  </div>
+
+  <div class="section-title">Exclusions</div>
+  <div class="chip-grid" data-group="exclusions">
+    <button class="chip" data-filter="!favorite">!Favorite</button>
+    <button class="chip" data-filter="!4*">!4*</button>
+    <button class="chip" data-filter="!legendary">!Legendary</button>
+    <button class="chip" data-filter="!mythical">!Mythical</button>
+    <button class="chip" data-filter="!shadow">!Shadow</button>
+  </div>
+
+  <div class="section-title">Age Filter</div>
+  <div class="chip-grid" data-group="age">
+    <button class="chip" data-filter="age0">Today (age0)</button>
+    <button class="chip" data-filter="age0-7">Past Week (age0-7)</button>
+    <button class="chip" data-filter="age0-30">Past Month (age0-30)</button>
+  </div>
+
+  <div class="output-container">
+    <div class="output-label">Generated Search String</div>
+    <div id="output-text" class="output-text">...</div>
+    <div class="button-row">
+      <button class="btn btn-primary" onclick="copyString()">Copy</button>
+      <button class="btn btn-secondary" onclick="resetAll()">Reset</button>
+    </div>
+  </div>
+
+  <div class="app-footer">
+    © 2026 • Pokémon GO Search Builder
+  </div>
+
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      document.getElementById('theme-btn').innerText = isDark ? '☀️' : '🌙';
+      localStorage.setItem('app-theme', isDark ? 'dark' : 'light');
+    }
+
+    window.onload = function() {
+      if (localStorage.getItem('app-theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+        document.getElementById('theme-btn').innerText = '☀️';
+      }
+      buildString();
+    };
+
+    document.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        chip.classList.toggle('active');
+        buildString();
+      });
+    });
+
+    function buildString() {
+      const groups = document.querySelectorAll('.chip-grid');
+      let groupQueries = [];
+
+      groups.forEach(group => {
+        const activeChips = group.querySelectorAll('.chip.active');
+        if (activeChips.length > 0) {
+          const filters = Array.from(activeChips).map(c => c.dataset.filter);
+          groupQueries.push(filters.join(','));
+        }
+      });
+
+      const finalString = groupQueries.length > 0 ? groupQueries.join(' & ') : '';
+      document.getElementById('output-text').innerText = finalString || 'Select filters above...';
+    }
+
+    function copyString() {
+      const str = document.getElementById('output-text').innerText;
+      if (!str || str === 'Select filters above...') return;
+
+      navigator.clipboard.writeText(str).then(() => {
+        const btn = document.querySelector('.btn-primary');
+        const oldText = btn.innerText;
+        btn.innerText = 'Copied!';
+        setTimeout(() => btn.innerText = oldText, 1500);
+      });
+    }
+
+    function resetAll() {
+      document.querySelectorAll('.chip.active').forEach(chip => chip.classList.remove('active'));
+      buildString();
+    }
+  </script>
+</body>
+</html>

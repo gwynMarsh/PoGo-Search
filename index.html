@@ -63,8 +63,9 @@
 
     h2 {
       margin: 0;
-      font-size: 20px;
+      font-size: 24px;
       font-weight: 900;
+      letter-spacing: 0.5px
     }
 
     .theme-toggle {
@@ -76,10 +77,10 @@
     }
 
     .section-title {
-      font-size: 13px;
+      font-size: 16px;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
       margin: 16px 0 8px 0;
       color: var(--accent-color);
       text-align: left;
@@ -99,7 +100,7 @@
       border-radius: 20px;
       padding: 8px 14px;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 500;
       font-family: inherit;
       cursor: pointer;
       transition: all 0.15s ease;
@@ -194,28 +195,28 @@
     <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()">🌙</button>
   </div>
 
-  <div class="section-title">Appraisal & Stars</div>
+  <div class="section-title">🏅 Appraisal & Stars</div>
   <div class="chip-grid" data-group="stars">
-    <button class="chip" data-filter="0*">0*</button>
-    <button class="chip" data-filter="1*">1*</button>
-    <button class="chip" data-filter="2*">2*</button>
-    <button class="chip" data-filter="3*">3*</button>
-    <button class="chip" data-filter="4*">4*</button>
-    <button class="chip" data-filter="0attack">0 Attack</button>
+    <button class="chip" data-filter="0*">0 ☆</button>
+    <button class="chip" data-filter="1*">1 ★★</button>
+    <button class="chip" data-filter="2*">2 ★★</button>
+    <button class="chip" data-filter="3*">3 ★★★</button>
+    <button class="chip" data-filter="4*">4 ★★★★</button>
+    <button class="chip" data-filter="0attack">0☆ Attack</button>
   </div>
 
-  <div class="section-title">Status & Rarity</div>
+  <div class="section-title">🔎 Status & Rarity</div>
   <div class="chip-grid" data-group="status">
-    <button class="chip" data-filter="shiny">Shiny</button>
-    <button class="chip" data-filter="shadow">Shadow</button>
-    <button class="chip" data-filter="purified">Purified</button>
-    <button class="chip" data-filter="lucky">Lucky</button>
-    <button class="chip" data-filter="legendary">Legendary</button>
-    <button class="chip" data-filter="mythical">Mythical</button>
-    <button class="chip" data-filter="costume">Costume</button>
+    <button class="chip" data-filter="shiny">✨ Shiny</button>
+    <button class="chip" data-filter="shadow">🌗 Shadow</button>
+    <button class="chip" data-filter="purified">🔆 Purified</button>
+    <button class="chip" data-filter="lucky">🍀 Lucky</button>
+    <button class="chip" data-filter="legendary">🐉 Legendary</button>
+    <button class="chip" data-filter="mythical">🦄 Mythical</button>
+    <button class="chip" data-filter="costume">🎩 Costume</button>
   </div>
 
-  <div class="section-title">Exclusions</div>
+  <div class="section-title">🚫 Exclusions</div>
   <div class="chip-grid" data-group="exclusions">
     <button class="chip" data-filter="!favorite">!Favorite</button>
     <button class="chip" data-filter="!4*">!4*</button>
@@ -224,7 +225,7 @@
     <button class="chip" data-filter="!shadow">!Shadow</button>
   </div>
 
-  <div class="section-title">Age Filter</div>
+  <div class="section-title">🗓️ Age Filter</div>
   <div class="chip-grid" data-group="age">
     <button class="chip" data-filter="age0">Today (age0)</button>
     <button class="chip" data-filter="age0-7">Past Week (age0-7)</button>
@@ -241,7 +242,7 @@
   </div>
 
   <div class="app-footer">
-    © 2026 • Pokémon GO Search Builder
+    © 2026 GwynMarsh • Pokémon GO Search Builder
   </div>
 
   <script>

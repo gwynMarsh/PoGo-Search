@@ -269,15 +269,23 @@
       });
     });
 
-    function buildString() {
+   function buildString() {
       const groups = document.querySelectorAll('.chip-grid');
       let groupQueries = [];
 
       groups.forEach(group => {
         const activeChips = group.querySelectorAll('.chip.active');
         if (activeChips.length > 0) {
+          const groupName = group.dataset.group;
           const filters = Array.from(activeChips).map(c => c.dataset.filter);
-          groupQueries.push(filters.join(','));
+
+          // Exclusions MUST use ampersands (&) so all '!' conditions are strictly enforced
+          if (groupName === 'exclusions') {
+            groupQueries.push(filters.join(' & '));
+          } else {
+            // Standard categories use commas (,) for OR logic
+            groupQueries.push(filters.join(','));
+          }
         }
       });
 

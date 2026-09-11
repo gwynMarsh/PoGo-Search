@@ -75,11 +75,12 @@
     }
 
     /* Collapsible Section Styling */
-    details {
-      margin-bottom: 12px;
-      border-bottom: 1px solid var(--card-border);
-      padding-bottom: 8px;
-    }
+details {
+  margin-bottom: 12px;
+  border-bottom: 1.5px solid var(--divider-color); /* Updated variable & thicker line */
+  padding-bottom: 8px;
+  transition: border-color 0.3s ease;
+}
 
     summary.section-title {
       font-size: 13px;

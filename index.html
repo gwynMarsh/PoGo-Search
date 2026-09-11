@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Pokémon GO Search Builder</title>
   
-  <!-- Lato Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
@@ -25,6 +24,8 @@
       --output-border: transparent;
       --output-shadow: rgba(0, 0, 0, 0.25);
       --accent-color: #DE7E00;
+      --input-bg: #ffffff;
+      --input-border: #ccc;
     }
 
     body.dark-mode {
@@ -41,6 +42,8 @@
       --output-border: 1px solid #2d2d2d;
       --output-shadow: rgba(0, 0, 0, 0.6);
       --accent-color: #FF9D2E;
+      --input-bg: #1f2937;
+      --input-border: #374151;
     }
 
     body {
@@ -61,12 +64,7 @@
       margin-bottom: 20px;
     }
 
-    h2 {
-      margin: 0;
-      font-size: 24px;
-      font-weight: 900;
-      letter-spacing: 0.3px
-    }
+    h2 { margin: 0; font-size: 20px; font-weight: 900; }
 
     .theme-toggle {
       background: none;
@@ -77,11 +75,11 @@
     }
 
     .section-title {
-      font-size: 16px;
+      font-size: 13px;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      margin: 20px 0 8px 0;
+      letter-spacing: 0.5px;
+      margin: 16px 0 8px 0;
       color: var(--accent-color);
       text-align: left;
     }
@@ -100,7 +98,7 @@
       border-radius: 20px;
       padding: 8px 14px;
       font-size: 13px;
-      font-weight: 500;
+      font-weight: 700;
       font-family: inherit;
       cursor: pointer;
       transition: all 0.15s ease;
@@ -111,6 +109,24 @@
       background: var(--chip-active-bg);
       color: var(--chip-active-text);
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    .cp-custom-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .cp-custom-row input {
+      flex: 1;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-family: inherit;
+      font-weight: 700;
+      border-radius: 10px;
+      border: 1px solid var(--input-border);
+      background-color: var(--input-bg);
+      color: var(--text-color);
     }
 
     .output-container {
@@ -163,19 +179,9 @@
       transition: opacity 0.15s ease, transform 0.1s ease;
     }
 
-    .btn:active {
-      transform: scale(0.98);
-    }
-
-    .btn-primary {
-      background-color: var(--accent-color);
-      color: #ffffff;
-    }
-
-    .btn-secondary {
-      background-color: rgba(255, 255, 255, 0.15);
-      color: #ffffff;
-    }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary { background-color: var(--accent-color); color: #ffffff; }
+    .btn-secondary { background-color: rgba(255, 255, 255, 0.15); color: #ffffff; }
 
     .app-footer {
       margin-top: 24px;
@@ -195,46 +201,72 @@
     <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()">🌙</button>
   </div>
 
-  <div class="section-title">🏅 Appraisal & Stars</div>
+  <div class="section-title">Appraisal & Stars</div>
   <div class="chip-grid" data-group="stars">
-    <button class="chip" data-filter="0*">0 ☆</button>
-    <button class="chip" data-filter="1*">1 ★</button>
-    <button class="chip" data-filter="2*">2 ★★</button>
-    <button class="chip" data-filter="3*">3 ★★★</button>
-    <button class="chip" data-filter="4*">4 ★★★★</button>
-    <button class="chip" data-filter="0attack">0☆ Attack</button>
+    <button class="chip" data-filter="0*">0*</button>
+    <button class="chip" data-filter="1*">1*</button>
+    <button class="chip" data-filter="2*">2*</button>
+    <button class="chip" data-filter="3*">3*</button>
+    <button class="chip" data-filter="4*">4*</button>
+    <button class="chip" data-filter="0attack">0 Attack</button>
   </div>
 
-  <div class="section-title">🔎 Status & Rarity</div>
+  <div class="section-title">CP Range</div>
+  <div class="chip-grid" data-group="cp">
+    <button class="chip" data-filter="cp-1500">Great League (≤1500)</button>
+    <button class="chip" data-filter="cp1501-2500">Ultra League (1501-2500)</button>
+    <button class="chip" data-filter="cp2501-">Master League (2501+)</button>
+  </div>
+  <div class="cp-custom-row">
+    <input type="number" id="cp-min" placeholder="Min CP (e.g. 1000)" oninput="buildString()">
+    <input type="number" id="cp-max" placeholder="Max CP (e.g. 1500)" oninput="buildString()">
+  </div>
+
+  <div class="section-title">Pokémon Types</div>
+  <div class="chip-grid" data-group="types">
+    <button class="chip" data-filter="bug">Bug</button>
+    <button class="chip" data-filter="dark">Dark</button>
+    <button class="chip" data-filter="dragon">Dragon</button>
+    <button class="chip" data-filter="electric">Electric</button>
+    <button class="chip" data-filter="fairy">Fairy</button>
+    <button class="chip" data-filter="fighting">Fighting</button>
+    <button class="chip" data-filter="fire">Fire</button>
+    <button class="chip" data-filter="flying">Flying</button>
+    <button class="chip" data-filter="ghost">Ghost</button>
+    <button class="chip" data-filter="grass">Grass</button>
+    <button class="chip" data-filter="ground">Ground</button>
+    <button class="chip" data-filter="ice">Ice</button>
+    <button class="chip" data-filter="normal">Normal</button>
+    <button class="chip" data-filter="poison">Poison</button>
+    <button class="chip" data-filter="psychic">Psychic</button>
+    <button class="chip" data-filter="rock">Rock</button>
+    <button class="chip" data-filter="steel">Steel</button>
+    <button class="chip" data-filter="water">Water</button>
+  </div>
+
+  <div class="section-title">Status & Rarity</div>
   <div class="chip-grid" data-group="status">
-    <button class="chip" data-filter="shiny">✨ Shiny</button>
-    <button class="chip" data-filter="shadow">🌗 Shadow</button>
-    <button class="chip" data-filter="purified">🔆 Purified</button>
-    <button class="chip" data-filter="lucky">🍀 Lucky</button>
-    <button class="chip" data-filter="legendary">🐉 Legendary</button>
-    <button class="chip" data-filter="mythical">🦄 Mythical</button>
-    <button class="chip" data-filter="costume">🎩 Costume</button>
+    <button class="chip" data-filter="shiny">Shiny</button>
+    <button class="chip" data-filter="shadow">Shadow</button>
+    <button class="chip" data-filter="purified">Purified</button>
+    <button class="chip" data-filter="lucky">Lucky</button>
+    <button class="chip" data-filter="legendary">Legendary</button>
+    <button class="chip" data-filter="mythical">Mythical</button>
+    <button class="chip" data-filter="costume">Costume</button>
   </div>
 
-  <div class="section-title">⛔️ Exclusions</div>
+  <div class="section-title">Exclusions</div>
   <div class="chip-grid" data-group="exclusions">
-    <button class="chip" data-filter="!favorite">🚫Favorite</button>
-    <button class="chip" data-filter="!4*">🚫4 ★★★★</button>
-    <button class="chip" data-filter="!legendary">🚫Legendary</button>
-    <button class="chip" data-filter="!mythical">🚫Mythical</button>
-    <button class="chip" data-filter="!shadow">🚫Shadow</button>
-    <button class="chip" data-filter="!shiny">🚫Shiny</button>
-  </div>
-
-  <div class="section-title">🗓️ Age Filter</div>
-  <div class="chip-grid" data-group="age">
-    <button class="chip" data-filter="age0">Today (age0)</button>
-    <button class="chip" data-filter="age0-7">Past Week (age0-7)</button>
-    <button class="chip" data-filter="age0-30">Past Month (age0-30)</button>
+    <button class="chip" data-filter="!favorite">!Favorite</button>
+    <button class="chip" data-filter="!4*">!4*</button>
+    <button class="chip" data-filter="!legendary">!Legendary</button>
+    <button class="chip" data-filter="!mythical">!Mythical</button>
+    <button class="chip" data-filter="!shadow">!Shadow</button>
+    <button class="chip" data-filter="!shiny">!Shiny</button>
   </div>
 
   <div class="output-container">
-    <div class="output-label">🪄 Generated Search String</div>
+    <div class="output-label">Generated Search String</div>
     <div id="output-text" class="output-text">...</div>
     <div class="button-row">
       <button class="btn btn-primary" onclick="copyString()">Copy</button>
@@ -243,7 +275,7 @@
   </div>
 
   <div class="app-footer">
-    © 2026 GwynMarsh • Pokémon GO Search Builder
+    © 2026 • Pokémon GO Search Builder
   </div>
 
   <script>
@@ -264,12 +296,17 @@
 
     document.querySelectorAll('.chip').forEach(chip => {
       chip.addEventListener('click', () => {
+        // Clear custom CP inputs if a preset chip is tapped
+        if (chip.parentElement.dataset.group === 'cp') {
+          document.getElementById('cp-min').value = '';
+          document.getElementById('cp-max').value = '';
+        }
         chip.classList.toggle('active');
         buildString();
       });
     });
 
-   function buildString() {
+    function buildString() {
       const groups = document.querySelectorAll('.chip-grid');
       let groupQueries = [];
 
@@ -279,15 +316,29 @@
           const groupName = group.dataset.group;
           const filters = Array.from(activeChips).map(c => c.dataset.filter);
 
-          // Exclusions MUST use ampersands (&) so all '!' conditions are strictly enforced
           if (groupName === 'exclusions') {
             groupQueries.push(filters.join(' & '));
           } else {
-            // Standard categories use commas (,) for OR logic
             groupQueries.push(filters.join(','));
           }
         }
       });
+
+      // Handle custom CP range inputs
+      const minCp = document.getElementById('cp-min').value;
+      const maxCp = document.getElementById('cp-max').value;
+      if (minCp || maxCp) {
+        // Clear CP preset chips if custom numbers are typed
+        document.querySelectorAll('[data-group="cp"] .chip').forEach(c => c.classList.remove('active'));
+        
+        if (minCp && maxCp) {
+          groupQueries.push(`cp${minCp}-${maxCp}`);
+        } else if (minCp) {
+          groupQueries.push(`cp${minCp}-`);
+        } else if (maxCp) {
+          groupQueries.push(`cp-${maxCp}`);
+        }
+      }
 
       const finalString = groupQueries.length > 0 ? groupQueries.join(' & ') : '';
       document.getElementById('output-text').innerText = finalString || 'Select filters above...';
@@ -307,6 +358,8 @@
 
     function resetAll() {
       document.querySelectorAll('.chip.active').forEach(chip => chip.classList.remove('active'));
+      document.getElementById('cp-min').value = '';
+      document.getElementById('cp-max').value = '';
       buildString();
     }
   </script>

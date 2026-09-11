@@ -142,15 +142,19 @@
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     }
 
-    .cp-custom-row {
+   .cp-custom-row {
       display: flex;
       gap: 8px;
       margin-top: 8px;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .cp-custom-row input {
       flex: 1;
-      padding: 8px 12px;
+      width: 0; /* Prevents text overflow from expanding the input box */
+      box-sizing: border-box;
+      padding: 8px 10px;
       font-size: 13px;
       font-family: inherit;
       font-weight: 700;
@@ -158,6 +162,7 @@
       border: 1px solid var(--input-border);
       background-color: var(--input-bg);
       color: var(--text-color);
+      text-overflow: ellipsis;
     }
 
     .output-container {
@@ -256,10 +261,10 @@
         <button class="chip" data-filter="cp1501-2500">Ultra League (1501-2500)</button>
         <button class="chip" data-filter="cp2501-">Master League (2501+)</button>
       </div>
-      <div class="cp-custom-row">
-        <input type="number" id="cp-min" placeholder="Min CP (e.g. 1000)" oninput="buildString()">
-        <input type="number" id="cp-max" placeholder="Max CP (e.g. 1500)" oninput="buildString()">
-      </div>
+     <div class="cp-custom-row">
+      <input type="number" id="cp-min" placeholder="Min CP" oninput="buildString()">
+      <input type="number" id="cp-max" placeholder="Max CP" oninput="buildString()">
+    </div>
     </div>
   </details>
 

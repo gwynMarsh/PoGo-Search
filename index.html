@@ -2,23 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pokémon GO Search Builder</title>
 
-   <!-- Emoji Favicon-->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👀</text></svg>">
+  <!-- Emoji Favicon-->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👀</text></svg>">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
 
   <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
     :root {
       --bg-color: #f4f4f7;
       --text-color: #333333;
       --card-bg: #ffffff;
       --card-border: #e5e7eb;
-      --divider-color: #d1d5db; /* Visible high-contrast border for Light Mode */
+      --divider-color: #d1d5db;
       --chip-bg: #e5e7eb;
       --chip-text: #374151;
       --chip-active-bg: #DE7E00;
@@ -37,7 +41,7 @@
       --text-color: #f3f4f6;
       --card-bg: #1f2937;
       --card-border: #374151;
-      --divider-color: #2d3748; /* High-contrast border for Dark Mode */
+      --divider-color: #2d3748;
       --chip-bg: #374151;
       --chip-text: #d1d5db;
       --chip-active-bg: #FF9D2E;
@@ -54,7 +58,8 @@
     body {
       font-family: 'Lato', -apple-system, BlinkMacSystemFont, sans-serif;
       padding: 20px 16px;
-      max-width: 360px;
+      max-width: 520px;
+      width: 100%;
       margin: 0 auto;
       background-color: var(--bg-color);
       color: var(--text-color);
@@ -69,14 +74,20 @@
       margin-bottom: 20px;
     }
 
-    h2 { margin: 0; font-size: 20px; font-weight: 900; }
+    h2 { margin: 0; font-size: 22px; font-weight: 900; }
 
     .theme-toggle {
       background: none;
       border: none;
-      font-size: 28px;
+      font-size: 26px;
       cursor: pointer;
       padding: 4px;
+      border-radius: 50%;
+      transition: transform 0.2s ease;
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.1);
     }
 
     /* Collapsible Section Styling */
@@ -92,11 +103,11 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      padding: 8px 0;
+      padding: 10px 0;
       color: var(--accent-color);
       text-align: left;
       cursor: pointer;
-      list-style: none; /* Remove default browser marker */
+      list-style: none;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -104,7 +115,7 @@
     }
 
     summary.section-title::-webkit-details-marker {
-      display: none; /* Remove Safari marker */
+      display: none;
     }
 
     summary.section-title::after {
@@ -117,20 +128,22 @@
       transform: rotate(180deg);
     }
 
-    /* Animated Slide-down Effect */
+    /* Collapsible Content - Overflow visible when open so shadows don't get clipped */
     .section-content {
       display: grid;
       grid-template-rows: 0fr;
       transition: grid-template-rows 0.3s ease-out;
+      overflow: hidden;
     }
 
     details[open] .section-content {
       grid-template-rows: 1fr;
+      overflow: visible;
     }
 
     .content-inner {
-      overflow: hidden;
-      padding-top: 8px;
+      min-height: 0;
+      padding: 6px 4px 10px 4px;
     }
 
     .chip-grid {
@@ -150,29 +163,37 @@
       font-weight: 700;
       font-family: inherit;
       cursor: pointer;
-      transition: all 0.15s ease;
+      transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
       user-select: none;
+      outline: none;
+    }
+
+    .chip:hover {
+      transform: translateY(-1px);
+    }
+
+    .chip:focus-visible {
+      box-shadow: 0 0 0 2px var(--accent-color);
     }
 
     .chip.active {
       background: var(--chip-active-bg);
       color: var(--chip-active-text);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.22);
+      transform: translateY(-1px);
     }
 
     .cp-custom-row {
       display: flex;
-      gap: 8px;
-      margin-top: 8px;
+      gap: 10px;
+      margin-top: 10px;
       width: 100%;
-      box-sizing: border-box;
     }
 
     .cp-custom-row input {
       flex: 1;
-      width: 0; /* Prevents text overflow from expanding the input box */
-      box-sizing: border-box;
-      padding: 8px 10px;
+      width: 0;
+      padding: 10px 12px;
       font-size: 13px;
       font-family: inherit;
       font-weight: 700;
@@ -181,6 +202,13 @@
       background-color: var(--input-bg);
       color: var(--text-color);
       text-overflow: ellipsis;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .cp-custom-row input:focus {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 2px rgba(222, 126, 0, 0.2);
     }
 
     .output-container {
@@ -209,9 +237,11 @@
       font-size: 14px;
       word-break: break-all;
       background: rgba(255, 255, 255, 0.08);
-      padding: 10px 12px;
+      padding: 12px;
       border-radius: 8px;
-      min-height: 20px;
+      min-height: 42px;
+      display: flex;
+      align-items: center;
       text-align: left;
       margin-bottom: 12px;
     }
@@ -230,12 +260,13 @@
       font-size: 14px;
       font-family: inherit;
       cursor: pointer;
-      transition: opacity 0.15s ease, transform 0.1s ease;
+      transition: opacity 0.15s ease, transform 0.1s ease, background-color 0.2s ease;
     }
 
     .btn:active { transform: scale(0.98); }
     .btn-primary { background-color: var(--accent-color); color: #ffffff; }
     .btn-secondary { background-color: rgba(255, 255, 255, 0.15); color: #ffffff; }
+    .btn-secondary:hover { background-color: rgba(255, 255, 255, 0.25); }
 
     .app-footer {
       margin-top: 24px;
@@ -252,7 +283,7 @@
 
   <div class="header-row">
     <h2>Search Builder</h2>
-    <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()">🌙</button>
+    <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">🌙</button>
   </div>
 
   <!-- Appraisal & Stars -->
@@ -356,7 +387,7 @@
 
   <div class="output-container">
     <div class="output-label">Generated Search String</div>
-    <div id="output-text" class="output-text">...</div>
+    <div id="output-text" class="output-text">Select filters above...</div>
     <div class="button-row">
       <button class="btn btn-primary" onclick="copyString()">Copy</button>
       <button class="btn btn-secondary" onclick="resetAll()">Reset</button>
@@ -434,12 +465,32 @@
       const str = document.getElementById('output-text').innerText;
       if (!str || str === 'Select filters above...') return;
 
-      navigator.clipboard.writeText(str).then(() => {
-        const btn = document.querySelector('.btn-primary');
-        const oldText = btn.innerText;
-        btn.innerText = 'Copied!';
-        setTimeout(() => btn.innerText = oldText, 1500);
-      });
+      // Fallback and modern copy handler
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(str).then(showCopiedFeedback);
+      } else {
+        const textArea = document.createElement("textarea");
+        textArea.value = str;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+          document.execCommand('copy');
+          showCopiedFeedback();
+        } catch (err) {
+          console.error('Copy failed', err);
+        }
+        document.body.removeChild(textArea);
+      }
+    }
+
+    function showCopiedFeedback() {
+      const btn = document.querySelector('.btn-primary');
+      const oldText = btn.innerText;
+      btn.innerText = 'Copied!';
+      setTimeout(() => btn.innerText = oldText, 1500);
     }
 
     function resetAll() {

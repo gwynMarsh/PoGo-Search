@@ -11,273 +11,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
-
-  <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-    }
-
-    :root {
-      --bg-color: #f4f4f7;
-      --text-color: #333333;
-      --card-bg: #ffffff;
-      --card-border: #e5e7eb;
-      --divider-color: #d1d5db;
-      --chip-bg: #e5e7eb;
-      --chip-text: #374151;
-      --chip-active-bg: #DE7E00;
-      --chip-active-text: #ffffff;
-      --output-bg: #242424;
-      --output-text: #ffffff;
-      --output-border: transparent;
-      --output-shadow: rgba(0, 0, 0, 0.25);
-      --accent-color: #DE7E00;
-      --input-bg: #ffffff;
-      --input-border: #ccc;
-    }
-
-    body.dark-mode {
-      --bg-color: #121212;
-      --text-color: #f3f4f6;
-      --card-bg: #1f2937;
-      --card-border: #374151;
-      --divider-color: #2d3748;
-      --chip-bg: #374151;
-      --chip-text: #d1d5db;
-      --chip-active-bg: #FF9D2E;
-      --chip-active-text: #121212;
-      --output-bg: #000000;
-      --output-text: #ffffff;
-      --output-border: 1px solid #2d2d2d;
-      --output-shadow: rgba(0, 0, 0, 0.6);
-      --accent-color: #FF9D2E;
-      --input-bg: #1f2937;
-      --input-border: #374151;
-    }
-
-    body {
-      font-family: 'Lato', -apple-system, BlinkMacSystemFont, sans-serif;
-      padding: 20px 16px;
-      max-width: 520px;
-      width: 100%;
-      margin: 0 auto;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      -webkit-tap-highlight-color: transparent;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    .header-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    h2 { margin: 0; font-size: 22px; font-weight: 900; }
-
-    .theme-toggle {
-      background: none;
-      border: none;
-      font-size: 26px;
-      cursor: pointer;
-      padding: 4px;
-      border-radius: 50%;
-      transition: transform 0.2s ease;
-    }
-
-    .theme-toggle:hover {
-      transform: scale(1.1);
-    }
-
-    /* Collapsible Section Styling */
-    details {
-      margin-bottom: 12px;
-      border-bottom: 1.5px solid var(--divider-color);
-      padding-bottom: 8px;
-      transition: border-color 0.3s ease;
-    }
-
-    summary.section-title {
-      font-size: 13px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      padding: 10px 0;
-      color: var(--accent-color);
-      text-align: left;
-      cursor: pointer;
-      list-style: none;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      user-select: none;
-    }
-
-    summary.section-title::-webkit-details-marker {
-      display: none;
-    }
-
-    summary.section-title::after {
-      content: '▼';
-      font-size: 10px;
-      transition: transform 0.3s ease;
-    }
-
-    details[open] summary.section-title::after {
-      transform: rotate(180deg);
-    }
-
-    /* Collapsible Content - Overflow visible when open so shadows don't get clipped */
-    .section-content {
-      display: grid;
-      grid-template-rows: 0fr;
-      transition: grid-template-rows 0.3s ease-out;
-      overflow: hidden;
-    }
-
-    details[open] .section-content {
-      grid-template-rows: 1fr;
-      overflow: visible;
-    }
-
-    .content-inner {
-      min-height: 0;
-      padding: 6px 4px 10px 4px;
-    }
-
-    .chip-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 4px;
-    }
-
-    .chip {
-      background: var(--chip-bg);
-      color: var(--chip-text);
-      border: 1px solid transparent;
-      border-radius: 20px;
-      padding: 8px 14px;
-      font-size: 13px;
-      font-weight: 500;
-      font-family: inherit;
-      cursor: pointer;
-      transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
-      user-select: none;
-      outline: none;
-    }
-
-    .chip:hover {
-      transform: translateY(-1px);
-    }
-
-    .chip:focus-visible {
-      box-shadow: 0 0 0 2px var(--accent-color);
-    }
-
-    .chip.active {
-      background: var(--chip-active-bg);
-      color: var(--chip-active-text);
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.22);
-      transform: translateY(-1px);
-    }
-
-    .cp-custom-row {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
-      width: 100%;
-    }
-
-    .cp-custom-row input {
-      flex: 1;
-      width: 0;
-      padding: 10px 12px;
-      font-size: 13px;
-      font-family: inherit;
-      font-weight: 400;
-      border-radius: 10px;
-      border: 1px solid var(--input-border);
-      background-color: var(--input-bg);
-      color: var(--text-color);
-      text-overflow: ellipsis;
-      outline: none;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .cp-custom-row input:focus {
-      border-color: var(--accent-color);
-      box-shadow: 0 0 0 2px rgba(222, 126, 0, 0.2);
-    }
-
-    .output-container {
-      background-color: var(--output-bg);
-      border: var(--output-border);
-      color: var(--output-text);
-      border-radius: 16px;
-      padding: 16px;
-      margin-top: 24px;
-      box-shadow: 0 4px 12px var(--output-shadow);
-      transition: background-color 0.3s ease, border 0.3s ease;
-    }
-
-    .output-label {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: #bfbfbf;
-      margin-bottom: 8px;
-      text-align: left;
-    }
-
-    .output-text {
-      font-family: monospace;
-      font-size: 14px;
-      word-break: break-all;
-      background: rgba(255, 255, 255, 0.08);
-      padding: 12px;
-      border-radius: 8px;
-      min-height: 42px;
-      display: flex;
-      align-items: center;
-      text-align: left;
-      margin-bottom: 12px;
-    }
-
-    .button-row {
-      display: flex;
-      gap: 8px;
-    }
-
-    .btn {
-      flex: 1;
-      padding: 12px;
-      border: none;
-      border-radius: 10px;
-      font-weight: 700;
-      font-size: 14px;
-      font-family: inherit;
-      cursor: pointer;
-      transition: opacity 0.15s ease, transform 0.1s ease, background-color 0.2s ease;
-    }
-
-    .btn:active { transform: scale(0.98); }
-    .btn-primary { background-color: var(--accent-color); color: #ffffff; }
-    .btn-secondary { background-color: rgba(255, 255, 255, 0.15); color: #ffffff; }
-    .btn-secondary:hover { background-color: rgba(255, 255, 255, 0.25); }
-
-    .app-footer {
-      margin-top: 24px;
-      margin-bottom: 8px;
-      font-size: 11px;
-      color: var(--text-color);
-      opacity: 0.6;
-      text-align: center;
-      letter-spacing: 0.5px;
-    }
-  </style>
+  
+  <!-- External CSS -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -285,6 +21,23 @@
     <h2>Search Builder</h2>
     <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">🌙</button>
   </div>
+
+  <!-- Quantity (Count) Slider added as first block for quick cleanup -->
+  <details open>
+    <summary class="section-title">Quantity (Count)</summary>
+    <div class="section-content">
+      <div class="content-inner slider-container">
+        <div class="slider-header">
+          <span class="slider-value-display" id="count-display">Off</span>
+          <label class="exact-toggle">
+            <input type="checkbox" id="count-exact" onchange="updateSliderUI(); buildString();"> Exact Match Only
+          </label>
+        </div>
+        <!-- Max set to 15, common for hoarding. Adjust max as needed -->
+        <input type="range" id="count-slider" min="0" max="15" value="0" oninput="updateSliderUI(); buildString();">
+      </div>
+    </div>
+  </details>
 
   <!-- Appraisal & Stars -->
   <details open>
@@ -411,6 +164,7 @@
         document.body.classList.add('dark-mode');
         document.getElementById('theme-btn').innerText = '☀️';
       }
+      updateSliderUI();
       buildString();
     };
 
@@ -425,10 +179,32 @@
       });
     });
 
+    function updateSliderUI() {
+      const val = parseInt(document.getElementById('count-slider').value);
+      const exact = document.getElementById('count-exact').checked;
+      const display = document.getElementById('count-display');
+      
+      if (val === 0) {
+        display.innerText = 'Off';
+        display.style.color = 'inherit';
+      } else {
+        display.innerText = exact ? `Exactly ${val}` : `${val} or more`;
+        display.style.color = 'var(--accent-color)';
+      }
+    }
+
     function buildString() {
       const groups = document.querySelectorAll('.chip-grid');
       let groupQueries = [];
 
+      // 1. Process Count Slider
+      const countVal = parseInt(document.getElementById('count-slider').value);
+      const countExact = document.getElementById('count-exact').checked;
+      if (countVal > 0) {
+        groupQueries.push(countExact ? `count${countVal}` : `count${countVal}-`);
+      }
+
+      // 2. Process Chips
       groups.forEach(group => {
         const activeChips = group.querySelectorAll('.chip.active');
         if (activeChips.length > 0) {
@@ -443,6 +219,7 @@
         }
       });
 
+      // 3. Process Custom CP
       const minCp = document.getElementById('cp-min').value;
       const maxCp = document.getElementById('cp-max').value;
       if (minCp || maxCp) {
@@ -465,7 +242,6 @@
       const str = document.getElementById('output-text').innerText;
       if (!str || str === 'Select filters above...') return;
 
-      // Fallback and modern copy handler
       if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(str).then(showCopiedFeedback);
       } else {
@@ -497,6 +273,12 @@
       document.querySelectorAll('.chip.active').forEach(chip => chip.classList.remove('active'));
       document.getElementById('cp-min').value = '';
       document.getElementById('cp-max').value = '';
+      
+      // Reset Slider
+      document.getElementById('count-slider').value = 0;
+      document.getElementById('count-exact').checked = false;
+      updateSliderUI();
+      
       buildString();
     }
   </script>

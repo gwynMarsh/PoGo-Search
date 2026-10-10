@@ -1,0 +1,10 @@
+const { test } = require('node:test');
+const assert = require('node:assert/strict');
+const { generateSearch } = require('../search.js');
+test('stars are alternatives and zero Attack is required', () => assert.equal(generateSearch({ groups: { stars: ['0*', '1*'], attack: ['0attack'] } }).query, '0*,1*&0attack'));
+test('statuses and exclusions are required; types are alternatives', () => assert.equal(generateSearch({ groups: { types: ['fire', 'water'], status: ['shiny', 'lucky'], exclusions: ['!favorite', '!4*'] } }).query, 'fire,water&shiny&lucky&!favorite&!4*'));
+test('custom CP replaces presets', () => assert.equal(generateSearch({ groups: { cp: ['cp-1500'] }, minCp: '100', maxCp: '200' }).query, 'cp100-200'));
+test('CP bounds and exact CP', () => { for (const [minCp,maxCp,query] of [['10','','cp10-'],['','1500','cp-1500'],['100','100','cp100']]) assert.equal(generateSearch({minCp,maxCp}).query,query); });
+test('invalid CP blocks output', () => { for (const state of [{minCp:'9'}, {minCp:'1.5'}, {minCp:'-10'}, {minCp:'200',maxCp:'100'}, {invalidCp:true}, {minCp:'1e3'}]) assert.ok(generateSearch(state).errors.length); });
+test('contradictory filters block output', () => { for (const groups of [{status:['shiny'],exclusions:['!shiny']},{status:['shadow','purified']},{status:['legendary','mythical']},{status:['shadow','lucky']},{stars:['3*','4*'],attack:['0attack']}]) assert.ok(generateSearch({groups}).errors.length); });
+test('count and empty search', () => { assert.equal(generateSearch({count:3}).query,'count3-'); assert.equal(generateSearch({count:3,exact:true}).query,'count3'); assert.equal(generateSearch({}).query,''); });

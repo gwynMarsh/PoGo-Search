@@ -303,4 +303,16 @@ input[type="range"]:focus { outline: none; }
   opacity: 0.6;
   text-align: center;
   letter-spacing: 0.5px;
-}+-
+}
+.filter-help { font-size: 13px; line-height: 1.5; margin: 6px 0 12px; }
+.chip, .theme-toggle, summary.section-title { min-height: 44px; }
+.cp-custom-row input { font-size: 16px; min-height: 44px; }
+.slider-header { flex-wrap: wrap; gap: 12px; }
+.btn:disabled { opacity: .45; cursor: default; }
+.btn:focus-visible, .theme-toggle:focus-visible, summary:focus-visible, input[type="range"]:focus-visible { outline: 2px solid var(--accent-color); outline-offset: 3px; }
+#validation-message:not(:empty) { color: #ffd29b; margin-bottom: 12px; line-height: 1.5; }
+#copy-feedback { min-height: 24px; margin-top: 10px; font-size: 14px; }
+input[type="range"] { min-height: 44px; }
+input[type="range"]::-moz-range-thumb { height: 20px; width: 20px; border: 0; border-radius: 50%; background: var(--accent-color); }
+input[type="range"]::-moz-range-track { height: 6px; border-radius: 4px; background: var(--chip-bg); }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }

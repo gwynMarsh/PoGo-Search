@@ -34,7 +34,7 @@
           </label>
         </div>
         <!-- Max set to 15, common for hoarding. Adjust max as needed -->
-        <input type="range" id="count-slider" min="0" max="12" value="0" oninput="updateSliderUI(); buildString();">
+        <input type="range" aria-label="Number of Pokémon of the same species" id="count-slider" min="0" max="12" value="0" oninput="updateSliderUI(); buildString();">
       </div>
     </div>
   </details>
@@ -50,6 +50,8 @@
           <button class="chip" data-filter="2*">2★★</button>
           <button class="chip" data-filter="3*">3★★★</button>
           <button class="chip" data-filter="4*">4★★★★</button>
+          </div>
+        <div class="chip-grid" data-group="attack">
           <button class="chip" data-filter="0attack">0 Attack</button>
         </div>
       </div>
@@ -62,13 +64,13 @@
     <div class="section-content">
       <div class="content-inner">
         <div class="chip-grid" data-group="cp">
-          <button class="chip" data-filter="cp-1500">Great League (≤1500)</button>
-          <button class="chip" data-filter="cp1501-2500">Ultra League (1501–2500)</button>
-          <button class="chip" data-filter="cp2501-">Master League (2501+)</button>
+          <button class="chip" data-filter="cp-1500">CP ≤1500</button>
+          <button class="chip" data-filter="cp1501-2500">CP 1501–2500</button>
+          <button class="chip" data-filter="cp2501-">CP 2501+</button>
         </div>
         <div class="cp-custom-row">
-          <input type="number" id="cp-min" placeholder="Min CP" oninput="buildString()">
-          <input type="number" id="cp-max" placeholder="Max CP" oninput="buildString()">
+          <input type="number" id="cp-min" min="10" step="1" aria-label="Minimum CP" aria-describedby="validation-message" placeholder="Min CP" oninput="buildString()">
+          <input type="number" id="cp-max" min="10" step="1" aria-label="Maximum CP" aria-describedby="validation-message" placeholder="Max CP" oninput="buildString()">
         </div>
       </div>
     </div>
@@ -108,6 +110,7 @@
     <summary class="section-title">Status & Rarity</summary>
     <div class="section-content">
       <div class="content-inner">
+        <p class="filter-help">Require every selected status. Types, stars and CP presets match any selected option.</p>
         <div class="chip-grid" data-group="status">
           <button class="chip" data-filter="shiny">✨ Shiny</button>
           <button class="chip" data-filter="shadow">🌑 Shadow</button>
@@ -140,147 +143,21 @@
 
   <div class="output-container">
     <div class="output-label">Generated Search String</div>
+    <p class="filter-help">Search terms are for Pokémon GO in English. CP bands do not determine league eligibility.</p>
+    <div id="validation-message" role="status" aria-live="polite"></div>
     <div id="output-text" class="output-text">Select filters above...</div>
     <div class="button-row">
-      <button class="btn btn-primary" onclick="copyString()">Copy</button>
+      <button id="copy-btn" class="btn btn-primary" onclick="copyString()">Copy</button>
       <button class="btn btn-secondary" onclick="resetAll()">Reset</button>
     </div>
   </div>
 
+  <div id="copy-feedback" role="status" aria-live="polite"></div>
   <div class="app-footer">
     © 2026 • Pokémon GO Search Builder
   </div>
 
-  <script>
-    function toggleTheme() {
-      document.body.classList.toggle('dark-mode');
-      const isDark = document.body.classList.contains('dark-mode');
-      document.getElementById('theme-btn').innerText = isDark ? '☀️' : '🌙';
-      localStorage.setItem('app-theme', isDark ? 'dark' : 'light');
-    }
-
-    window.onload = function() {
-      if (localStorage.getItem('app-theme') === 'dark') {
-        document.body.classList.add('dark-mode');
-        document.getElementById('theme-btn').innerText = '☀️';
-      }
-      updateSliderUI();
-      buildString();
-    };
-
-    document.querySelectorAll('.chip').forEach(chip => {
-      chip.addEventListener('click', () => {
-        if (chip.parentElement.dataset.group === 'cp') {
-          document.getElementById('cp-min').value = '';
-          document.getElementById('cp-max').value = '';
-        }
-        chip.classList.toggle('active');
-        buildString();
-      });
-    });
-
-    function updateSliderUI() {
-      const val = parseInt(document.getElementById('count-slider').value);
-      const exact = document.getElementById('count-exact').checked;
-      const display = document.getElementById('count-display');
-      
-      if (val === 0) {
-        display.innerText = 'Off';
-        display.style.color = 'inherit';
-      } else {
-        display.innerText = exact ? `Exactly ${val}` : `${val} or more`;
-        display.style.color = 'var(--accent-color)';
-      }
-    }
-
-    function buildString() {
-      const groups = document.querySelectorAll('.chip-grid');
-      let groupQueries = [];
-
-      // 1. Process Count Slider
-      const countVal = parseInt(document.getElementById('count-slider').value);
-      const countExact = document.getElementById('count-exact').checked;
-      if (countVal > 0) {
-        groupQueries.push(countExact ? `count${countVal}` : `count${countVal}-`);
-      }
-
-      // 2. Process Chips
-      groups.forEach(group => {
-        const activeChips = group.querySelectorAll('.chip.active');
-        if (activeChips.length > 0) {
-          const groupName = group.dataset.group;
-          const filters = Array.from(activeChips).map(c => c.dataset.filter);
-
-          if (groupName === 'exclusions') {
-            groupQueries.push(filters.join(' & '));
-          } else {
-            groupQueries.push(filters.join(','));
-          }
-        }
-      });
-
-      // 3. Process Custom CP
-      const minCp = document.getElementById('cp-min').value;
-      const maxCp = document.getElementById('cp-max').value;
-      if (minCp || maxCp) {
-        document.querySelectorAll('[data-group="cp"] .chip').forEach(c => c.classList.remove('active'));
-        
-        if (minCp && maxCp) {
-          groupQueries.push(`cp${minCp}-${maxCp}`);
-        } else if (minCp) {
-          groupQueries.push(`cp${minCp}-`);
-        } else if (maxCp) {
-          groupQueries.push(`cp-${maxCp}`);
-        }
-      }
-
-      const finalString = groupQueries.length > 0 ? groupQueries.join(' & ') : '';
-      document.getElementById('output-text').innerText = finalString || 'Select filters above...';
-    }
-
-    function copyString() {
-      const str = document.getElementById('output-text').innerText;
-      if (!str || str === 'Select filters above...') return;
-
-      if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(str).then(showCopiedFeedback);
-      } else {
-        const textArea = document.createElement("textarea");
-        textArea.value = str;
-        textArea.style.position = "fixed";
-        textArea.style.left = "-999999px";
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
-        try {
-          document.execCommand('copy');
-          showCopiedFeedback();
-        } catch (err) {
-          console.error('Copy failed', err);
-        }
-        document.body.removeChild(textArea);
-      }
-    }
-
-    function showCopiedFeedback() {
-      const btn = document.querySelector('.btn-primary');
-      const oldText = btn.innerText;
-      btn.innerText = 'Copied!';
-      setTimeout(() => btn.innerText = oldText, 1500);
-    }
-
-    function resetAll() {
-      document.querySelectorAll('.chip.active').forEach(chip => chip.classList.remove('active'));
-      document.getElementById('cp-min').value = '';
-      document.getElementById('cp-max').value = '';
-      
-      // Reset Slider
-      document.getElementById('count-slider').value = 0;
-      document.getElementById('count-exact').checked = false;
-      updateSliderUI();
-      
-      buildString();
-    }
-  </script>
+  <script src="search.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>

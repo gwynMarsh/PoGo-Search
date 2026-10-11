@@ -272,8 +272,9 @@ input[type="range"]::-moz-range-thumb {
 
 input[type="range"]:focus { outline: none; }
 
-/* Shared columns align every filter section, including the separate Attack row. */
-.chip-grid {
+/* Shared columns align every filter section. */
+.chip-grid,
+.appraisal-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
@@ -291,7 +292,8 @@ input[type="range"]:focus { outline: none; }
 }
 
 @media (max-width: 380px) {
-  .chip-grid {
+  .chip-grid,
+  .appraisal-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -366,3 +368,8 @@ input[type="range"]:focus { outline: none; }
 #validation-message:not(:empty) { color: #ffd29b; margin-bottom: 12px; line-height: 1.5; }
 #copy-feedback { min-height: 24px; margin-top: 10px; font-size: 14px; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
+
+/* Keep separate query groups in one visual grid so all six chips share the same gaps. */
+.appraisal-grid > .chip-grid {
+  display: contents;
+}

@@ -28,7 +28,10 @@ function toggleTheme() {
     });
 
     function updateSliderUI() {
-      const val = parseInt(document.getElementById('count-slider').value);
+      const slider = document.getElementById('count-slider');
+      const val = Number(slider.value);
+      const progress = (val - Number(slider.min)) / (Number(slider.max) - Number(slider.min));
+      slider.style.setProperty('--range-progress', `${progress * 100}%`);
       const exact = document.getElementById('count-exact').checked;
       const display = document.getElementById('count-display');
       
@@ -39,6 +42,7 @@ function toggleTheme() {
         display.innerText = exact ? `Exactly ${val}` : `${val} or more`;
         display.style.color = 'var(--accent-color)';
       }
+      slider.setAttribute('aria-valuetext', display.innerText);
     }
 
     let currentQuery = '';

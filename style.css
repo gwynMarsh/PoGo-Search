@@ -272,16 +272,14 @@ input[type="range"]::-moz-range-thumb {
 
 input[type="range"]:focus { outline: none; }
 
-/* Equal columns keep the longer lists easy to scan. */
-.chip-grid[data-group="types"],
-.chip-grid[data-group="status"] {
+/* Shared columns align every filter section, including the separate Attack row. */
+.chip-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
 }
 
-.chip-grid[data-group="types"] .chip,
-.chip-grid[data-group="status"] .chip {
+.chip-grid .chip {
   width: 100%;
   min-width: 0;
   min-height: 44px;
@@ -293,8 +291,7 @@ input[type="range"]:focus { outline: none; }
 }
 
 @media (max-width: 380px) {
-  .chip-grid[data-group="types"],
-  .chip-grid[data-group="status"] {
+  .chip-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

@@ -10,13 +10,13 @@
   --divider-color: #d1d5db;
   --chip-bg: #e5e7eb;
   --chip-text: #374151;
-  --chip-active-bg: #DE7E00;
+  --chip-active-bg: #E33A47;
   --chip-active-text: #ffffff;
   --output-bg: #242424;
   --output-text: #ffffff;
   --output-border: transparent;
   --output-shadow: rgba(0, 0, 0, 0.25);
-  --accent-color: #DE7E00;
+  --accent-color: #E33A47;
   --input-bg: #ffffff;
   --input-border: #ccc;
 }
@@ -29,13 +29,13 @@ body.dark-mode {
   --divider-color: #2d3748;
   --chip-bg: #374151;
   --chip-text: #d1d5db;
-  --chip-active-bg: #FF9D2E;
+  --chip-active-bg: #FF5B65;
   --chip-active-text: #121212;
   --output-bg: #000000;
   --output-text: #ffffff;
   --output-border: 1px solid #2d2d2d;
   --output-shadow: rgba(0, 0, 0, 0.6);
-  --accent-color: #FF9D2E;
+  --accent-color: #FF5B65;
   --input-bg: #1f2937;
   --input-border: #374151;
 }
@@ -184,7 +184,7 @@ details[open] .section-content {
 
 .cp-custom-row input:focus {
   border-color: var(--accent-color);
-  box-shadow: 0 0 0 2px rgba(222, 126, 0, 0.2);
+  box-shadow: 0 0 0 2px rgba(227, 58, 71, 0.2);
 }
 
 /* Slider Custom Styles */
@@ -372,4 +372,39 @@ input[type="range"]:focus { outline: none; }
 /* Keep separate query groups in one visual grid so all six chips share the same gaps. */
 .appraisal-grid > .chip-grid {
   display: contents;
+}
+
+.section-heading { display: inline-flex; align-items: center; gap: 10px; }
+.section-icon { width: 22px; flex: 0 0 22px; font-size: 18px; line-height: 1; text-align: center; }
+
+/* Type-inspired colors are limited to selected chips to keep the page calm. */
+.chip-grid[data-group="types"] .chip[data-filter="bug"] { --type-color: #A6B91A; --type-text: #121212; }
+.chip-grid[data-group="types"] .chip[data-filter="dark"] { --type-color: #705746; --type-text: #FFFFFF; }
+.chip-grid[data-group="types"] .chip[data-filter="dragon"] { --type-color: #6F35FC; --type-text: #FFFFFF; }
+.chip-grid[data-group="types"] .chip[data-filter="electric"] { --type-color: #F7D02C; --type-text: #121212; }
+.chip-grid[data-group="types"] .chip[data-filter="fairy"] { --type-color: #F4A7CE; --type-text: #121212; }
+.chip-grid[data-group="types"] .chip[data-filter="fighting"] { --type-color: #C22E28; --type-text: #FFFFFF; }
+.chip-grid[data-group="types"] .chip[data-filter="fire"] { --type-color: #EE8130; --type-text: #121212; }
+.chip-grid[data-group="types"] .chip[data-filter="flying"] { --type-color: #A9C7F5; --type-text: #121212; }
+.chip-grid[data-group="types"] .chip[data-filter="ghost"] { --type-color: #735797; --type-text: #FFFFFF; }
+.chip-grid[data-group="types"] .chip[data-filter="grass"] { --type-color: #7AC74C; --type-text: #121212; }
+.chip-grid[data-group="types"] .chip[data-filter="ground"] { --type-color: #E2BF65; --type-text: #121212; }
+.chip-grid[data-group="types"] .chip[data-filter="ice"] { --type-color: #96D9D6; --type-text: #121212; }
+.chip-grid[data-group="types"] .chip[data-filter="normal"] { --type-color: #A8A77A; --type-text: #121212; }
+.chip-grid[data-group="types"] .chip[data-filter="poison"] { --type-color: #A33EA1; --type-text: #FFFFFF; }
+.chip-grid[data-group="types"] .chip[data-filter="psychic"] { --type-color: #F95587; --type-text: #121212; }
+.chip-grid[data-group="types"] .chip[data-filter="rock"] { --type-color: #B6A136; --type-text: #121212; }
+.chip-grid[data-group="types"] .chip[data-filter="steel"] { --type-color: #B7B7CE; --type-text: #121212; }
+.chip-grid[data-group="types"] .chip[data-filter="water"] { --type-color: #6390F0; --type-text: #121212; }
+
+.chip-grid[data-group="types"] .chip.active {
+  background: var(--type-color);
+  color: var(--type-text);
+  border-color: var(--type-text);
+  box-shadow: inset 0 0 0 1px var(--type-text), 0 3px 8px rgba(0, 0, 0, .22);
+  font-weight: 700;
+}
+.chip-grid[data-group="types"] .chip:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 3px;
 }

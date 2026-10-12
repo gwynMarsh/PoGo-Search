@@ -390,7 +390,7 @@ input[type="range"]:focus { outline: none; }
 .chip-grid[data-group="types"] .chip[data-filter="grass"] { --type-color: #3fa129; --type-text: #121212; }
 .chip-grid[data-group="types"] .chip[data-filter="ground"] { --type-color: #915121; --type-text: #FFFFFF; }
 .chip-grid[data-group="types"] .chip[data-filter="ice"] { --type-color: #3dcef3; --type-text: #121212; }
-.chip-grid[data-group="types"] .chip[data-filter="normal"] { --type-color: #9fa19f; --type-text: #121212; }
+.chip-grid[data-group="types"] .chip[data-filter="normal"] { --type-color: #6c6d6c; --type-text: #FFFFFF; }
 .chip-grid[data-group="types"] .chip[data-filter="poison"] { --type-color: #9141cb; --type-text: #FFFFFF; }
 .chip-grid[data-group="types"] .chip[data-filter="psychic"] { --type-color: #ef4179; --type-text: #121212; }
 .chip-grid[data-group="types"] .chip[data-filter="rock"] { --type-color: #afa981; --type-text: #121212; }

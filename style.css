@@ -9,7 +9,7 @@
   --card-border: #e5e7eb;
   --divider-color: #d1d5db;
   --chip-bg: #e5e7eb;
-  --chip-text: #374151;
+  --chip-text: #d0d0d0;
   --chip-active-bg: #E33A47;
   --chip-active-text: #ffffff;
   --output-bg: #242424;
@@ -25,9 +25,9 @@ body.dark-mode {
   --bg-color: #121212;
   --text-color: #f3f4f6;
   --card-bg: #1f2937;
-  --card-border: #374151;
+  --card-border: #d0d0d0;
   --divider-color: #2d3748;
-  --chip-bg: #374151;
+  --chip-bg: #d0d0d0;
   --chip-text: #d1d5db;
   --chip-active-bg: #FF5B65;
   --chip-active-text: #121212;
@@ -37,7 +37,7 @@ body.dark-mode {
   --output-shadow: rgba(0, 0, 0, 0.6);
   --accent-color: #FF5B65;
   --input-bg: #1f2937;
-  --input-border: #374151;
+  --input-border: #d0d0d0;
 }
 
 body {

@@ -24,7 +24,7 @@
 body.dark-mode {
   --bg-color: #121212;
   --text-color: #f3f4f6;
-  --card-bg: #1f2937;
+  --card-bg: #838383;
   --card-border: #d0d0d0;
   --divider-color: #2d3748;
   --chip-bg: #d0d0d0;
@@ -36,7 +36,7 @@ body.dark-mode {
   --output-border: 1px solid #2d2d2d;
   --output-shadow: rgba(0, 0, 0, 0.6);
   --accent-color: #FF5B65;
-  --input-bg: #1f2937;
+  --input-bg: #838383;
   --input-border: #d0d0d0;
 }
 

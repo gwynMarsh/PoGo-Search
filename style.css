@@ -38,10 +38,10 @@ body.dark-mode {
   --output-border: 1px solid #2d2d2d;
   --output-shadow: rgba(0, 0, 0, 0.6);
   --accent-color: #FF5B65;
-  --input-bg: #838383;
-  --input-text: #000000;
-  --input-placeholder: #171717;
-  --input-border: #d0d0d0;
+  --input-bg: #24272B;
+  --input-text: #F3F4F6;
+  --input-placeholder: #B0B6BE;
+  --input-border: #737B85;
 }
 
 body {

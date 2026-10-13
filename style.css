@@ -417,3 +417,32 @@ input[type="range"]:focus { outline: none; }
   outline: 2px solid var(--accent-color);
   outline-offset: 3px;
 }
+
+/* Each column stacks independently; mobile keeps the original section order. */
+.filters-layout,
+.filter-column {
+  min-width: 0;
+}
+
+@media (min-width: 900px) {
+  body {
+    max-width: 960px;
+    padding: 28px 24px;
+  }
+
+  .filters-layout {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 32px;
+  }
+
+  .output-container {
+    margin-top: 20px;
+  }
+
+  .output-container .button-row {
+    max-width: 320px;
+    margin-left: auto;
+  }
+}

@@ -22,6 +22,9 @@
     <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">🌙</button>
   </div>
 
+  <main>
+  <div class="filters-layout">
+  <div class="filter-column">
   <!-- Quantity (Count) Slider added as first block for quick cleanup -->
   <details open>
     <summary class="section-title"><span class="section-heading"><span class="section-icon" aria-hidden="true">🔢</span>Quantity (Count)</span></summary>
@@ -78,6 +81,8 @@
     </div>
   </details>
 
+  </div>
+  <div class="filter-column">
   <!-- Pokémon Types -->
   <details open>
     <summary class="section-title"><span class="section-heading"><span class="section-icon" aria-hidden="true">🧬</span>Pokémon Types</span></summary>
@@ -143,6 +148,9 @@
     </div>
   </details>
 
+  </div>
+  </div>
+
   <div class="output-container">
     <div class="output-label">Generated Search String</div>
     <p class="filter-help">Search terms are for Pokémon GO in English. CP bands do not determine league eligibility.</p>
@@ -155,6 +163,7 @@
   </div>
 
   <div id="copy-feedback" role="status" aria-live="polite"></div>
+  </main>
   <div class="app-footer">
     © 2026 • Pokémon GO Search Builder
   </div>

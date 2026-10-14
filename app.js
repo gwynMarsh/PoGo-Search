@@ -56,6 +56,50 @@ function toggleTheme() {
         tick.addEventListener('click', () => setCount(count));
         track.appendChild(tick);
       }
+      let drag = null;
+      let suppressClick = false;
+      ruler.addEventListener('pointerdown', event => {
+        if (event.pointerType !== 'mouse' || event.button !== 0) return;
+        suppressClick = false;
+        drag = { id: event.pointerId, x: event.clientX, scroll: ruler.scrollLeft, moved: false };
+        ruler.focus({ preventScroll: true });
+      });
+      ruler.addEventListener('pointermove', event => {
+        if (!drag || event.pointerId !== drag.id) return;
+        const distance = event.clientX - drag.x;
+        if (!drag.moved && Math.abs(distance) < 4) return;
+        if (!drag.moved) {
+          drag.moved = true;
+          ruler.classList.add('is-dragging');
+          ruler.setPointerCapture(event.pointerId);
+        }
+        event.preventDefault();
+        ruler.scrollLeft = drag.scroll - distance;
+        setCount(ruler.scrollLeft / countStepWidth, false);
+      });
+      const finishDrag = event => {
+        if (!drag || event.pointerId !== drag.id) return;
+        const moved = drag.moved;
+        drag = null;
+        if (!moved) return;
+        suppressClick = true;
+        const value = Math.round(ruler.scrollLeft / countStepWidth);
+        ruler.classList.remove('is-dragging');
+        if (ruler.hasPointerCapture(event.pointerId)) ruler.releasePointerCapture(event.pointerId);
+        setCount(value);
+      };
+      ruler.addEventListener('pointerup', finishDrag);
+      ruler.addEventListener('pointercancel', finishDrag);
+      ruler.addEventListener('lostpointercapture', finishDrag);
+      ruler.addEventListener('pointerleave', event => {
+        if (drag && !drag.moved) drag = null;
+      });
+      ruler.addEventListener('click', event => {
+        if (!suppressClick) return;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        suppressClick = false;
+      }, true);
       ruler.addEventListener('scroll', () => {
         cancelAnimationFrame(countScrollFrame);
         countScrollFrame = requestAnimationFrame(() => setCount(ruler.scrollLeft / countStepWidth, false));
@@ -72,9 +116,11 @@ function toggleTheme() {
       const val = Number(document.getElementById('count-slider').value);
       const exact = document.getElementById('count-exact').checked;
       const display = document.getElementById('count-display');
-      display.innerText = val === 0 ? 'Off' : val;
+      display.innerText = val === 0 ? 'Off' : exact ? String(val) : `${val}+`;
       display.style.color = val === 0 ? 'inherit' : 'var(--accent-color)';
-      document.getElementById('count-caption').innerText = val === 0 ? 'Count filter disabled' : exact ? 'Exactly this count' : 'or more';
+      const caption = document.getElementById('count-caption');
+      caption.innerText = val === 0 ? 'Count filter disabled' : exact ? 'Exactly this count' : '';
+      caption.hidden = val !== 0 && !exact;
       const ruler = document.getElementById('count-ruler');
       ruler.setAttribute('aria-valuenow', val);
       ruler.setAttribute('aria-valuetext', val === 0 ? 'Off' : exact ? `Exactly ${val}` : `${val} or more`);

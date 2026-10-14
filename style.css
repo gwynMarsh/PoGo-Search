@@ -66,17 +66,30 @@ body {
 h2 { margin: 0; font-size: 22px; font-weight: 900; }
 
 .theme-toggle {
-  background: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: transparent;
   border: none;
-  font-size: 26px;
+  border-radius: 12px;
+  color: var(--text-color);
   cursor: pointer;
-  padding: 4px;
-  border-radius: 50%;
-  transition: transform 0.2s ease;
+  touch-action: manipulation;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
 }
 
-.theme-toggle:hover {
-  transform: scale(1.1);
+@media (hover: hover) {
+  .theme-toggle:hover {
+    background-color: var(--chip-bg);
+  }
+}
+
+.theme-toggle:active {
+  opacity: 0.75;
 }
 
 details {

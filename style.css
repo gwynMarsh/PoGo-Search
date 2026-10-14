@@ -459,3 +459,18 @@ input[type="range"]:focus { outline: none; }
     margin-left: auto;
   }
 }
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  color: var(--text-color);
+}
+
+.theme-toggle .material-symbols-outlined {
+  font-size: 26px;
+  line-height: 1;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}

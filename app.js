@@ -1,7 +1,14 @@
+function updateThemeButton() {
+  const button = document.getElementById('theme-btn');
+  const isDark = document.body.classList.contains('dark-mode');
+  button.querySelector('.material-symbols-outlined').textContent = isDark ? 'light_mode' : 'dark_mode';
+  button.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+}
+
 function toggleTheme() {
       document.body.classList.toggle('dark-mode');
       const isDark = document.body.classList.contains('dark-mode');
-      document.getElementById('theme-btn').innerText = isDark ? '☀️' : '🌙';
+      updateThemeButton();
       try { localStorage.setItem('app-theme', isDark ? 'dark' : 'light'); } catch {}
     }
 
@@ -10,8 +17,8 @@ function toggleTheme() {
       try { savedTheme = localStorage.getItem('app-theme'); } catch {}
       if (savedTheme === 'dark') {
         document.body.classList.add('dark-mode');
-        document.getElementById('theme-btn').innerText = '☀️';
       }
+      updateThemeButton();
       updateSliderUI();
       buildString();
     };

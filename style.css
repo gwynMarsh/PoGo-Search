@@ -133,6 +133,7 @@ details[open] summary.section-title::after {
 
 .section-content {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: 0fr;
   transition: grid-template-rows 0.3s ease-out;
   overflow: hidden;
@@ -144,6 +145,7 @@ details[open] .section-content {
 }
 
 .content-inner {
+  min-width: 0;
   min-height: 0;
   padding: 6px 4px 10px 4px;
 }
@@ -493,8 +495,8 @@ input[type="range"]:focus { outline: none; }
 .count-readout { display: flex; flex-direction: column; gap: 4px; }
 .count-readout .slider-value-display { font-size: 36px; line-height: 1.1; font-variant-numeric: tabular-nums; }
 #count-caption { font-size: 13px; }
-.count-ruler-frame { position: relative; min-width: 0; background: var(--ruler-bg); border-radius: 12px; }
-.count-ruler { overflow-x: auto; overflow-y: hidden; scrollbar-width: none; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; border-radius: 12px; }
+.count-ruler-frame { position: relative; min-width: 0; width: 100%; background: var(--ruler-bg); border-radius: 12px; }
+.count-ruler { width: 100%; min-width: 0; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; border-radius: 12px; }
 .count-ruler::-webkit-scrollbar { display: none; }
 .count-ruler-track { display: flex; width: max-content; padding: 12px calc(50% - 12px); }
 .count-tick { position: relative; flex: 0 0 24px; width: 24px; height: 64px; padding-top: 32px; text-align: center; font-size: 12px; font-variant-numeric: tabular-nums; color: var(--text-color); scroll-snap-align: center; cursor: pointer; }

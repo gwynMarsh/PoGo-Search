@@ -19,6 +19,7 @@ function toggleTheme() {
         document.body.classList.add('dark-mode');
       }
       updateThemeButton();
+      initCountRuler();
       updateSliderUI();
       buildString();
     };
@@ -34,22 +35,51 @@ function toggleTheme() {
       });
     });
 
+    const countStepWidth = 24;
+    let countScrollFrame;
+    function setCount(value, align = true) {
+      const number = Number(value);
+      const count = Number.isFinite(number) ? Math.max(0, Math.min(100, Math.round(number))) : 0;
+      document.getElementById('count-slider').value = count;
+      updateSliderUI();
+      buildString();
+      if (align) document.getElementById('count-ruler').scrollLeft = count * countStepWidth;
+    }
+
+    function initCountRuler() {
+      const ruler = document.getElementById('count-ruler');
+      const track = document.getElementById('count-ruler-track');
+      for (let count = 0; count <= 100; count++) {
+        const tick = document.createElement('span');
+        tick.className = 'count-tick' + (count % 5 === 0 ? ' major' : '') + (count === 0 || count === 100 ? ' endpoint' : '');
+        tick.textContent = count % 5 === 0 ? count : '';
+        tick.addEventListener('click', () => setCount(count));
+        track.appendChild(tick);
+      }
+      ruler.addEventListener('scroll', () => {
+        cancelAnimationFrame(countScrollFrame);
+        countScrollFrame = requestAnimationFrame(() => setCount(ruler.scrollLeft / countStepWidth, false));
+      });
+      ruler.addEventListener('keydown', event => {
+        const value = Number(document.getElementById('count-slider').value);
+        const next = { ArrowRight: value + 1, ArrowUp: value + 1, ArrowLeft: value - 1, ArrowDown: value - 1, PageUp: value + 10, PageDown: value - 10, Home: 0, End: 100 }[event.key];
+        if (next !== undefined) { event.preventDefault(); setCount(next); }
+      });
+      ruler.scrollLeft = Number(document.getElementById('count-slider').value) * countStepWidth;
+    }
+
     function updateSliderUI() {
-      const slider = document.getElementById('count-slider');
-      const val = Number(slider.value);
-      const progress = (val - Number(slider.min)) / (Number(slider.max) - Number(slider.min));
-      slider.style.setProperty('--range-progress', `${progress * 100}%`);
+      const val = Number(document.getElementById('count-slider').value);
       const exact = document.getElementById('count-exact').checked;
       const display = document.getElementById('count-display');
-      
-      if (val === 0) {
-        display.innerText = 'Off';
-        display.style.color = 'inherit';
-      } else {
-        display.innerText = exact ? `Exactly ${val}` : `${val} or more`;
-        display.style.color = 'var(--accent-color)';
-      }
-      slider.setAttribute('aria-valuetext', display.innerText);
+      display.innerText = val === 0 ? 'Off' : val;
+      display.style.color = val === 0 ? 'inherit' : 'var(--accent-color)';
+      document.getElementById('count-caption').innerText = val === 0 ? 'Count filter disabled' : exact ? 'Exactly this count' : 'or more';
+      const ruler = document.getElementById('count-ruler');
+      ruler.setAttribute('aria-valuenow', val);
+      ruler.setAttribute('aria-valuetext', val === 0 ? 'Off' : exact ? `Exactly ${val}` : `${val} or more`);
+      ruler.parentElement.classList.toggle('at-start', val === 0);
+      ruler.parentElement.classList.toggle('at-end', val === 100);
     }
 
     let currentQuery = '';
@@ -110,6 +140,7 @@ function toggleTheme() {
       
       // Reset Slider
       document.getElementById('count-slider').value = 0;
+      document.getElementById('count-ruler').scrollLeft = 0;
       document.getElementById('count-exact').checked = false;
       updateSliderUI();
       

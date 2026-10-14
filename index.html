@@ -38,13 +38,21 @@
     <div class="section-content">
       <div class="content-inner slider-container">
         <div class="slider-header">
-          <span class="slider-value-display" id="count-display">Off</span>
+          <div class="count-readout"><span class="slider-value-display" id="count-display">Off</span><span id="count-caption">Count filter disabled</span></div>
           <label class="exact-toggle">
-            <input type="checkbox" id="count-exact" onchange="updateSliderUI(); buildString();"> Exact Match Only
+            <input type="checkbox" id="count-exact" onchange="updateSliderUI(); buildString();"> Exact match
           </label>
         </div>
-        <!-- Max set to 15, common for hoarding. Adjust max as needed -->
-        <input type="range" aria-label="Number of Pokémon of the same species" id="count-slider" min="0" max="12" value="0" oninput="updateSliderUI(); buildString();">
+        <div class="count-ruler-frame">
+          <div id="count-ruler" class="count-ruler" role="slider" tabindex="0" aria-label="Number of Pokémon of the same species" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="Off" aria-describedby="count-help">
+            <div class="count-ruler-track" id="count-ruler-track" aria-hidden="true"></div>
+          </div>
+          <span class="count-ruler-marker" aria-hidden="true"></span>
+        </div>
+        <label class="count-jump">Jump to count
+          <input type="number" id="count-slider" min="0" max="100" step="1" value="0" onchange="setCount(this.value)" aria-label="Jump to count from 0 to 100">
+        </label>
+        <p id="count-help" class="filter-help">Swipe the scale or use arrow keys. 0 turns the filter off.</p>
       </div>
     </div>
   </details>

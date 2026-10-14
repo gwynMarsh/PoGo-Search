@@ -36,11 +36,12 @@ function toggleTheme() {
     });
 
     const countStepWidth = 24;
+    let selectedCount = 0;
     let countScrollFrame;
     function setCount(value, align = true) {
       const number = Number(value);
       const count = Number.isFinite(number) ? Math.max(0, Math.min(100, Math.round(number))) : 0;
-      document.getElementById('count-slider').value = count;
+      selectedCount = count;
       updateSliderUI();
       buildString();
       if (align) document.getElementById('count-ruler').scrollLeft = count * countStepWidth;
@@ -105,22 +106,22 @@ function toggleTheme() {
         countScrollFrame = requestAnimationFrame(() => setCount(ruler.scrollLeft / countStepWidth, false));
       });
       ruler.addEventListener('keydown', event => {
-        const value = Number(document.getElementById('count-slider').value);
+        const value = selectedCount;
         const next = { ArrowRight: value + 1, ArrowUp: value + 1, ArrowLeft: value - 1, ArrowDown: value - 1, PageUp: value + 10, PageDown: value - 10, Home: 0, End: 100 }[event.key];
         if (next !== undefined) { event.preventDefault(); setCount(next); }
       });
-      ruler.scrollLeft = Number(document.getElementById('count-slider').value) * countStepWidth;
+      ruler.scrollLeft = selectedCount * countStepWidth;
     }
 
     function updateSliderUI() {
-      const val = Number(document.getElementById('count-slider').value);
+      const val = selectedCount;
       const exact = document.getElementById('count-exact').checked;
       const display = document.getElementById('count-display');
       display.innerText = val === 0 ? 'Off' : exact ? String(val) : `${val}+`;
       display.style.color = val === 0 ? 'inherit' : 'var(--accent-color)';
       const caption = document.getElementById('count-caption');
-      caption.innerText = val === 0 ? 'Count filter disabled' : exact ? 'Exactly this count' : '';
-      caption.hidden = val !== 0 && !exact;
+      caption.innerText = val === 0 ? 'Count filter disabled' : '';
+      caption.hidden = val !== 0;
       const ruler = document.getElementById('count-ruler');
       ruler.setAttribute('aria-valuenow', val);
       ruler.setAttribute('aria-valuetext', val === 0 ? 'Off' : exact ? `Exactly ${val}` : `${val} or more`);
@@ -142,7 +143,7 @@ function toggleTheme() {
       document.querySelectorAll('.chip').forEach(chip => chip.setAttribute('aria-pressed', chip.classList.contains('active')));
       const result = generateSearch({ groups, minCp: min.value, maxCp: max.value,
         invalidCp: min.validity.badInput || max.validity.badInput,
-        count: Number(document.getElementById('count-slider').value), exact: document.getElementById('count-exact').checked });
+        count: selectedCount, exact: document.getElementById('count-exact').checked });
       currentQuery = result.query;
       document.getElementById('output-text').innerText = currentQuery || (result.errors.length ? 'Resolve the filters above to generate a search.' : 'Select filters above...');
       document.getElementById('validation-message').innerText = result.errors.join(' ');
@@ -185,7 +186,7 @@ function toggleTheme() {
       document.getElementById('cp-max').value = '';
       
       // Reset Slider
-      document.getElementById('count-slider').value = 0;
+      selectedCount = 0;
       document.getElementById('count-ruler').scrollLeft = 0;
       document.getElementById('count-exact').checked = false;
       updateSliderUI();

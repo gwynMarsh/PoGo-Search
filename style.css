@@ -512,3 +512,10 @@ input[type="range"]:focus { outline: none; }
 .count-jump { display: flex; align-items: center; gap: 12px; font-size: 13px; }
 .count-jump input { width: 88px; min-height: 44px; padding: 8px; font: inherit; font-size: 16px; color: var(--input-text); background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 10px; }
 .count-jump input:focus-visible { outline: 2px solid var(--accent-color); outline-offset: 2px; }
+
+@media (hover: hover) and (pointer: fine) {
+  .count-ruler, .count-ruler .count-tick { cursor: grab; }
+  .count-ruler.dragging, .count-ruler.dragging .count-tick { cursor: grabbing; }
+}
+.count-ruler { user-select: none; -webkit-user-select: none; }
+.count-ruler.dragging { scroll-snap-type: none; }

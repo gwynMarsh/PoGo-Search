@@ -384,7 +384,20 @@ input[type="range"]:focus { outline: none; }
 }
 
 .section-heading { display: inline-flex; align-items: center; gap: 10px; }
-.section-icon { width: 22px; flex: 0 0 22px; font-size: 18px; line-height: 1; text-align: center; }
+.section-icon {
+  flex: 0 0 22px;
+  width: 22px;
+  font-size: 22px;
+  line-height: 1;
+  text-align: center;
+  color: inherit;
+
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}
 
 /* User-supplied in-game type colors are limited to selected chips to keep the page calm. */
 .chip-grid[data-group="types"] .chip[data-filter="bug"] { --type-color: #91a119; --type-text: #121212; }

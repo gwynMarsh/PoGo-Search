@@ -60,6 +60,59 @@ function toggleTheme() {
         cancelAnimationFrame(countScrollFrame);
         countScrollFrame = requestAnimationFrame(() => setCount(ruler.scrollLeft / countStepWidth, false));
       });
+      // Touch/trackpad scrolling stays native; mouse dragging needs explicit handling.
+      let drag = null;
+      let suppressClick = false;
+      ruler.addEventListener('pointerdown', event => {
+        if (event.pointerType !== 'mouse' || event.button !== 0) return;
+        suppressClick = false;
+        drag = { id: event.pointerId, x: event.clientX, scroll: ruler.scrollLeft, moved: false };
+        ruler.focus({ preventScroll: true });
+      });
+      ruler.addEventListener('pointermove', event => {
+        if (!drag || event.pointerId !== drag.id) return;
+        const distance = event.clientX - drag.x;
+        if (!drag.moved && Math.abs(distance) < 4) return;
+        if (!drag.moved) {
+          drag.moved = true;
+          ruler.setPointerCapture(event.pointerId);
+          ruler.classList.add('dragging');
+        }
+        event.preventDefault();
+        ruler.scrollLeft = Math.max(0, Math.min(100 * countStepWidth, drag.scroll - distance));
+      });
+      const finishDrag = event => {
+        if (!drag || event.pointerId !== drag.id) return;
+        const moved = drag.moved;
+        drag = null;
+        ruler.classList.remove('dragging');
+        if (moved) {
+          suppressClick = true;
+          setCount(ruler.scrollLeft / countStepWidth);
+        }
+      };
+      ruler.addEventListener('pointerup', finishDrag);
+      ruler.addEventListener('pointercancel', finishDrag);
+      ruler.addEventListener('lostpointercapture', finishDrag);
+      ruler.addEventListener('pointerleave', event => {
+        if (drag && !drag.moved) finishDrag(event);
+      });
+      ruler.addEventListener('click', event => {
+        if (suppressClick) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          suppressClick = false;
+        }
+      }, true);
+      ruler.addEventListener('wheel', event => {
+        if (event.ctrlKey || Math.abs(event.deltaX) >= Math.abs(event.deltaY)) return;
+        const current = Math.round(ruler.scrollLeft / countStepWidth);
+        const change = Math.sign(event.deltaY);
+        const next = Math.max(0, Math.min(100, current + change));
+        if (next === current) return; // Let the page scroll at the real endpoints.
+        event.preventDefault();
+        setCount(next);
+      }, { passive: false });
       ruler.addEventListener('keydown', event => {
         const value = Number(document.getElementById('count-slider').value);
         const next = { ArrowRight: value + 1, ArrowUp: value + 1, ArrowLeft: value - 1, ArrowDown: value - 1, PageUp: value + 10, PageDown: value - 10, Home: 0, End: 100 }[event.key];

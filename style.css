@@ -487,3 +487,24 @@ input[type="range"]:focus { outline: none; }
   line-height: 1;
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
+
+.count-readout { display: flex; flex-direction: column; gap: 4px; }
+.count-readout .slider-value-display { font-size: 36px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+#count-caption { font-size: 13px; }
+.count-ruler-frame { position: relative; min-width: 0; }
+.count-ruler { overflow-x: auto; overflow-y: hidden; scrollbar-width: none; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; border-radius: 8px; }
+.count-ruler::-webkit-scrollbar { display: none; }
+.count-ruler-track { display: flex; width: max-content; padding: 12px calc(50% - 12px); }
+.count-tick { position: relative; flex: 0 0 24px; width: 24px; height: 64px; padding-top: 32px; text-align: center; font-size: 12px; font-variant-numeric: tabular-nums; color: var(--text-color); scroll-snap-align: center; cursor: pointer; }
+.count-tick::before { content: ''; position: absolute; top: 4px; left: calc(50% - 1px); width: 2px; height: 14px; background: currentColor; opacity: .5; }
+.count-tick.major::before { height: 24px; opacity: .8; }
+.count-tick.endpoint::before { width: 3px; border-radius: 2px; }
+.count-ruler-marker { position: absolute; left: calc(50% - 2px); top: 8px; width: 4px; height: 34px; border-radius: 4px; background: var(--accent-color); pointer-events: none; }
+.count-ruler-frame::before, .count-ruler-frame::after { content: ''; position: absolute; top: 0; bottom: 0; width: 32px; z-index: 1; pointer-events: none; }
+.count-ruler-frame::before { left: 0; background: linear-gradient(to right, var(--bg-color), transparent); }
+.count-ruler-frame::after { right: 0; background: linear-gradient(to left, var(--bg-color), transparent); }
+.count-ruler-frame.at-start::before, .count-ruler-frame.at-end::after { display: none; }
+.count-ruler:focus-visible { outline: 2px solid var(--accent-color); outline-offset: 3px; }
+.count-jump { display: flex; align-items: center; gap: 12px; font-size: 13px; }
+.count-jump input { width: 88px; min-height: 44px; padding: 8px; font: inherit; font-size: 16px; color: var(--input-text); background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 10px; }
+.count-jump input:focus-visible { outline: 2px solid var(--accent-color); outline-offset: 2px; }

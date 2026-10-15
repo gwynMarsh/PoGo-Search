@@ -533,3 +533,6 @@ input[type="range"]:focus { outline: none; }
 @media (prefers-reduced-motion: reduce) {
   .count-tick::before, .exact-switch, .exact-switch::before { transition: none; }
 }
+
+.count-tick { transition: color 0.16s ease; }
+.count-tick.selected { color: var(--accent-color); }

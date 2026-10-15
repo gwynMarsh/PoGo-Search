@@ -40,7 +40,8 @@
         <div class="slider-header">
           <div class="count-readout"><span class="slider-value-display" id="count-display">Off</span><span id="count-caption">Count filter disabled</span></div>
           <label class="exact-toggle">
-            <input type="checkbox" id="count-exact" onchange="updateSliderUI(); buildString();"> Exact match
+            <input type="checkbox" role="switch" id="count-exact" onchange="updateSliderUI(); buildString();">
+            <span class="exact-switch" aria-hidden="true"></span> Exact match
           </label>
         </div>
         <div class="count-ruler-frame">
@@ -148,12 +149,12 @@
     <div class="section-content">
       <div class="content-inner">
         <div class="chip-grid" data-group="exclusions">
-          <button class="chip" data-filter="!favorite">❌ Favorite</button>
-          <button class="chip" data-filter="!4*">❌ 4★★★★</button>
-          <button class="chip" data-filter="!legendary">❌ Legendary</button>
-          <button class="chip" data-filter="!mythical">❌ Mythical</button>
-          <button class="chip" data-filter="!shadow">❌ Shadow</button>
-          <button class="chip" data-filter="!shiny">❌ Shiny</button>
+          <button class="chip" data-filter="!favorite"><span class="material-symbols-outlined chip-icon" aria-hidden="true">close</span> Favorite</button>
+          <button class="chip" data-filter="!4*"><span class="material-symbols-outlined chip-icon" aria-hidden="true">close</span> 4★★★★</button>
+          <button class="chip" data-filter="!legendary"><span class="material-symbols-outlined chip-icon" aria-hidden="true">close</span> Legendary</button>
+          <button class="chip" data-filter="!mythical"><span class="material-symbols-outlined chip-icon" aria-hidden="true">close</span> Mythical</button>
+          <button class="chip" data-filter="!shadow"><span class="material-symbols-outlined chip-icon" aria-hidden="true">close</span> Shadow</button>
+          <button class="chip" data-filter="!shiny"><span class="material-symbols-outlined chip-icon" aria-hidden="true">close</span> Shiny</button>
         </div>
       </div>
     </div>

@@ -123,6 +123,9 @@ function toggleTheme() {
       caption.innerText = val === 0 ? 'Count filter disabled' : '';
       caption.hidden = val !== 0;
       const ruler = document.getElementById('count-ruler');
+      ruler.querySelectorAll('.count-tick').forEach((tick, index) => {
+        tick.classList.toggle('selected', index === val);
+      });
       ruler.setAttribute('aria-valuenow', val);
       ruler.setAttribute('aria-valuetext', val === 0 ? 'Off' : exact ? `Exactly ${val}` : `${val} or more`);
       ruler.parentElement.classList.toggle('at-start', val === 0);

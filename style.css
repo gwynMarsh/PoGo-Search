@@ -341,7 +341,7 @@ input[type="range"]:focus { outline: none; }
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: #bfbfbf;
+  color: var(--accent-color);
   margin-bottom: 8px;
 }
 
@@ -494,18 +494,17 @@ input[type="range"]:focus { outline: none; }
 }
 
 .count-readout { display: flex; flex-direction: column; gap: 4px; }
-.count-readout .slider-value-display { font-size: 36px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.count-readout .slider-value-display { font-weight: 700; font-size: 36px; line-height: 1.1; font-variant-numeric: tabular-nums; }
 #count-caption { font-size: 13px; }
 .count-ruler-frame { position: relative; min-width: 0; width: 100%; background: var(--ruler-bg); border-radius: 12px; }
 .count-ruler { width: 100%; min-width: 0; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; border-radius: 12px; }
 .count-ruler::-webkit-scrollbar { display: none; }
 .count-ruler-track { display: flex; width: max-content; padding: 12px calc(50% - 12px); }
 .count-tick { position: relative; flex: 0 0 24px; width: 24px; height: 64px; padding-top: 32px; text-align: center; font-size: 12px; font-variant-numeric: tabular-nums; color: var(--ruler-muted); scroll-snap-align: center; cursor: pointer; }
-.count-tick::before { content: ''; position: absolute; top: 4px; left: calc(50% - 1px); width: 2px; height: 14px; background: currentColor; opacity: .5; }
+.count-tick::before { content: ''; position: absolute; top: 4px; left: calc(50% - 1px); width: 2px; height: 14px; background: var(--ruler-muted); opacity: .5; transition: background-color .16s ease, opacity .16s ease; }
 .count-tick.major::before { height: 24px; opacity: .8; }
 .count-tick.endpoint::before { width: 3px; border-radius: 2px; }
 .count-ruler-marker { position: absolute; left: calc(50% - 2px); top: 0; bottom: 0; width: 4px; pointer-events: none; }
-.count-ruler-marker::after { content: ''; position: absolute; top: 8px; width: 4px; height: 34px; border-radius: 4px; background: var(--accent-color); }
 .count-ruler-frame::before, .count-ruler-frame::after { content: ''; position: absolute; top: 0; bottom: 0; width: 32px; z-index: 1; pointer-events: none; }
 .count-ruler-frame::before { left: 0; border-radius: 12px 0 0 12px; background: linear-gradient(to right, var(--ruler-bg), transparent); }
 .count-ruler-frame::after { right: 0; border-radius: 0 12px 12px 0; background: linear-gradient(to left, var(--ruler-bg), transparent); }
@@ -517,4 +516,17 @@ input[type="range"]:focus { outline: none; }
 .count-ruler.is-dragging { cursor: grabbing; scroll-snap-type: none; }
 .count-ruler.is-dragging .count-tick { cursor: grabbing; }
 .count-ruler-marker::before { content: ''; position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 14px solid var(--accent-color); }
-.exact-toggle input[type="checkbox"] { accent-color: var(--accent-color); width: 18px; height: 18px; cursor: pointer; }
+
+/* Fade only the selected tick; scale labels stay neutral. */
+.count-tick.selected::before { background: var(--accent-color); opacity: 1; }
+.exact-toggle { position: relative; min-height: 44px; gap: 8px; }
+.exact-toggle input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.exact-switch { box-sizing: border-box; position: relative; flex: 0 0 44px; width: 44px; height: 26px; border-radius: 13px; background: var(--chip-bg); border: 1px solid var(--input-border); transition: background-color .18s ease, border-color .18s ease; }
+.exact-switch::before { content: ''; position: absolute; left: 2px; top: 2px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px #0003; transition: transform .18s ease; }
+.exact-toggle input:checked + .exact-switch { background: var(--accent-color); border-color: var(--accent-color); }
+.exact-toggle input:checked + .exact-switch::before { transform: translateX(18px); }
+.exact-toggle input:focus-visible + .exact-switch { outline: 2px solid var(--accent-color); outline-offset: 3px; }
+.chip .chip-icon { font-size: 18px; line-height: 1; vertical-align: -4px; color: currentColor; }
+@media (prefers-reduced-motion: reduce) {
+  .count-tick::before, .exact-switch, .exact-switch::before { transition: none; }
+}

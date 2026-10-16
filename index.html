@@ -31,16 +31,15 @@
   <main>
   <div class="filters-layout">
   <div class="filter-column">
-  <!-- Quantity (Count) Slider added as first block for quick cleanup -->
+  <!-- Quantity (Count) ruler -->
   <details open>
-  <summary class="section-title"><span class="section-heading"><span class="material-symbols-outlined section-icon" aria-hidden="true">filter_9_plus</span>Quantity (Count)</span>
-<span class="material-symbols-outlined section-chevron" aria-hidden="true">expand_more</span></summary>
+  <summary class="section-title"><span class="section-heading"><span class="material-symbols-outlined section-icon" aria-hidden="true">filter_9_plus</span>Quantity (Count)</span><span class="material-symbols-outlined section-chevron" aria-hidden="true">expand_more</span></summary>
     <div class="section-content">
       <div class="content-inner slider-container">
         <div class="slider-header">
           <div class="count-readout"><span class="slider-value-display" id="count-display">Off</span><span id="count-caption">Count filter disabled</span></div>
           <label class="exact-toggle">
-            <input type="checkbox" role="switch" id="count-exact" onchange="updateSliderUI(); buildString();">
+            <input type="checkbox" role="switch" id="count-exact" onchange="updateCountUI(); buildString();">
             <span class="exact-switch" aria-hidden="true"></span> Exact match
           </label>
         </div>

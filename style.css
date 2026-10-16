@@ -536,3 +536,4 @@ input[type="range"]:focus { outline: none; }
 
 .count-tick { transition: color 0.16s ease; }
 .count-tick.selected { color: var(--accent-color); }
+.count-tick::before { border-radius: 999px; }

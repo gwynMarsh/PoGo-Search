@@ -503,8 +503,8 @@ input[type="range"]:focus { outline: none; }
 .count-ruler { width: 100%; min-width: 0; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; border-radius: 12px; }
 .count-ruler::-webkit-scrollbar { display: none; }
 .count-ruler-track { display: flex; width: max-content; padding: 12px calc(50% - 12px); }
-.count-tick { position: relative; flex: 0 0 24px; width: 24px; height: 64px; padding-top: 32px; text-align: center; font-size: 12px; font-variant-numeric: tabular-nums; color: var(--ruler-muted); scroll-snap-align: center; cursor: pointer; }
-.count-tick::before { content: ''; position: absolute; top: 4px; left: calc(50% - 1px); width: 2px; height: 14px; background: var(--ruler-muted); opacity: .5; transition: background-color .16s ease, opacity .16s ease; }
+.count-tick { position: relative; flex: 0 0 24px; width: 24px; height: 64px; padding-top: 0; text-align: center; font-size: 11px; font-weight: 700; line-height: 14px; font-variant-numeric: tabular-nums; color: var(--ruler-muted); scroll-snap-align: center; cursor: pointer; }
+.count-tick::before { content: ''; position: absolute; bottom: 16px; left: calc(50% - 1px); width: 2px; height: 14px; background: var(--ruler-muted); opacity: .5; transition: background-color .16s ease, opacity .16s ease; }
 .count-tick.major::before { height: 24px; opacity: .8; }
 .count-tick.endpoint::before { width: 3px; border-radius: 2px; }
 .count-ruler-marker { position: absolute; left: calc(50% - 2px); top: 0; bottom: 0; width: 4px; pointer-events: none; }
@@ -520,7 +520,7 @@ input[type="range"]:focus { outline: none; }
 .count-ruler.is-dragging .count-tick { cursor: grabbing; }
 .count-ruler-marker::before { content: ''; position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 14px solid var(--accent-color); }
 
-/* Fade only the selected tick; scale labels stay neutral. */
+/* Fade the selected tick and its number to the theme accent. */
 .count-tick.selected::before { background: var(--accent-color); opacity: 1; }
 .exact-toggle { position: relative; min-height: 44px; gap: 8px; }
 .exact-toggle input { position: absolute; width: 1px; height: 1px; opacity: 0; }

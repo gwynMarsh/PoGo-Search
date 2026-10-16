@@ -497,7 +497,7 @@ input[type="range"]:focus { outline: none; }
 }
 
 .count-readout { display: flex; flex-direction: column; gap: 4px; }
-.count-readout .slider-value-display { font-weight: 700; font-size: 36px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.count-readout .slider-value-display { font-weight: 400; font-size: 36px; line-height: 1.1; font-variant-numeric: tabular-nums; }
 #count-caption { font-size: 13px; }
 .count-ruler-frame { position: relative; min-width: 0; width: 100%; background: var(--ruler-bg); border-radius: 12px; }
 .count-ruler { width: 100%; min-width: 0; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; border-radius: 12px; }
